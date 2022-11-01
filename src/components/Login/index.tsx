@@ -16,7 +16,10 @@ const Login: React.FC<Props> = ({ onSingInSuccess }) => {
   const { signIn, isPending, error } = useSignIn(onSingInSuccess);
 
   return (
-    <Form name="normal_login" style={{ maxWidth: 400, width: '100%' }}>
+    <Form
+      name="normal_login"
+      style={{ maxWidth: 400, width: '100%' }}
+    >
       <Form.Item rules={[requiredRule]}>
         <Input
           value={email}
@@ -48,7 +51,12 @@ const Login: React.FC<Props> = ({ onSingInSuccess }) => {
       </Form.Item>
 
       {error && (
-        <Alert message="ログイン失敗" description="メアドとパスワードが正しいか確認してみて。" type="error" showIcon />
+        <Alert
+          message="ログイン失敗"
+          description="メアドとパスワードが正しいか確認してみて。"
+          type="error"
+          showIcon
+        />
       )}
     </Form>
   );

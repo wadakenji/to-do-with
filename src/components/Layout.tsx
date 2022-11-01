@@ -7,9 +7,18 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <AntdLayout>
       <Header>
-        <div style={{ color: 'white', fontSize: 20 }}>いつかやりたい</div>
+        <div style={{ color: 'white', fontSize: 20 }}>
+          いつかやりたい
+        </div>
       </Header>
-      <Content style={{ padding: '20px 40px 0 40px', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+      <Content
+        style={{
+          padding: '20px 40px 0 40px',
+          minHeight: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
         {children}
       </Content>
     </AntdLayout>

@@ -9,7 +9,10 @@ export const useSignIn = (onSuccess?: () => Promise<void>) => {
   const signIn = async (email: string, password: string) => {
     setIsPending(true);
 
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
     if (error) setError(error);
     else await onSuccess?.();
