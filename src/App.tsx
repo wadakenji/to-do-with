@@ -8,9 +8,9 @@ const App = () => {
 
   return (
     <Layout>
-      {isLoading &&
+      {!isLoading &&
         (session ? (
-          'ログイン中'
+          'かみんぐすーん…'
         ) : (
           <Login onSingInSuccess={refreshSession} />
         ))}
