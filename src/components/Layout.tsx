@@ -9,7 +9,9 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
       <Header>
         <div style={{ color: 'white', fontSize: 20 }}>いつかやりたい</div>
       </Header>
-      <Content style={{ padding: '20px 40px 0 40px', minHeight: '100vh' }}>{children}</Content>
+      <Content style={{ padding: '20px 40px 0 40px', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+        {children}
+      </Content>
     </AntdLayout>
   );
 };
