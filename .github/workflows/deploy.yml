@@ -10,11 +10,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
 
-      - name: Run eslint
-        run: yarn lint
-
       - name: Install Dependencies
         run: yarn install
+
+      - name: Run eslint
+        run: yarn lint
 
       - name: Build
         env:
