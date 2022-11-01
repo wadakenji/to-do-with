@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { Button, Form, Input, Alert } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
+import { useSignIn } from '../../lib/hooks/useSignIn';
 
-const Login: React.FC = () => {
+type Props = {
+  onSingInSuccess: () => Promise<void>;
+};
+
+const requiredRule = { required: true, message: '入力してね！' };
+
+const Login: React.FC<Props> = ({ onSingInSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const onSubmit = () => {
-    console.log(email + password);
-  };
-
-  const requiredRule = { required: true, message: '入力してね！' };
+  const { signIn, isPending, error } = useSignIn(onSingInSuccess);
 
   return (
     <Form name="normal_login" style={{ maxWidth: 400, width: '100%' }}>
@@ -34,12 +37,19 @@ const Login: React.FC = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" style={{ width: '100%' }} onClick={onSubmit} disabled={!email || !password}>
+        <Button
+          type="primary"
+          style={{ width: '100%' }}
+          onClick={() => signIn(email, password)}
+          disabled={!email || !password || isPending}
+        >
           ログイン
         </Button>
       </Form.Item>
 
-      <Alert message="メッセージ" type="error" showIcon />
+      {error && (
+        <Alert message="ログイン失敗" description="メアドとパスワードが正しいか確認してみて。" type="error" showIcon />
+      )}
     </Form>
   );
 };

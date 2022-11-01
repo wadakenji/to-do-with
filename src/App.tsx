@@ -1,13 +1,12 @@
 import './App.css';
 import Layout from './components/Layout';
 import Login from './components/Login';
+import { useAuth } from './lib/hooks/useAuth';
 
 const App = () => {
-  return (
-    <Layout>
-      <Login />
-    </Layout>
-  );
+  const { session, isLoading, refreshSession } = useAuth();
+
+  return <Layout>{isLoading && (session ? 'ログイン中' : <Login onSingInSuccess={refreshSession} />)}</Layout>;
 };
 
 export default App;
