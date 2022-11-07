@@ -16,13 +16,16 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
 };
 
 const style = {
-  title: css({ color: 'white', fontSize: 20 }),
-  contentWrap: css({
-    padding: '16px 32px',
-    minHeight: '100vh',
-    display: 'flex',
-    justifyContent: 'center',
-  }),
+  title: css`
+    color: white;
+    font-size: 20px;
+  `,
+  contentWrap: css`
+    padding: 16px 32px;
+    min-height: calc(100vh - 64px);
+    display: flex;
+    justify-content: center;
+  `,
 };
 
 export default Layout;
