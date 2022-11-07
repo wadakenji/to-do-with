@@ -1,5 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import { Layout as AntdLayout } from 'antd';
+import { css } from '@emotion/react';
 
 const { Header, Content } = AntdLayout;
 
@@ -7,22 +8,21 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <AntdLayout>
       <Header>
-        <div style={{ color: 'white', fontSize: 20 }}>
-          いつかやりたい
-        </div>
+        <h2 css={style.title}>いつかやりたい</h2>
       </Header>
-      <Content
-        style={{
-          padding: '20px 40px 0 40px',
-          minHeight: '100vh',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        {children}
-      </Content>
+      <Content css={style.contentWrap}>{children}</Content>
     </AntdLayout>
   );
+};
+
+const style = {
+  title: css({ color: 'white', fontSize: 20 }),
+  contentWrap: css({
+    padding: '16px 32px',
+    minHeight: '100vh',
+    display: 'flex',
+    justifyContent: 'center',
+  }),
 };
 
 export default Layout;
