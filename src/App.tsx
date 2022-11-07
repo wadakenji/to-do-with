@@ -2,6 +2,7 @@ import './App.css';
 import Layout from './components/Layout';
 import Login from './components/Login';
 import { useAuth } from './lib/hooks/useAuth';
+import { Todo } from './components/Todo';
 
 const App = () => {
   const { session, isLoading, refreshSession } = useAuth();
@@ -10,7 +11,7 @@ const App = () => {
     <Layout>
       {!isLoading &&
         (session ? (
-          'かみんぐすーん…'
+          <Todo />
         ) : (
           <Login onSingInSuccess={refreshSession} />
         ))}
