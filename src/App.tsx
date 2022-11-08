@@ -1,7 +1,7 @@
 import './App.css';
 import Layout from './components/Layout';
 import Login from './components/Login';
-import { useAuth } from './lib/hooks/useAuth';
+import { useAuth } from './lib/hooks/auth/useAuth';
 import { Todo } from './components/Todo';
 
 const App = () => {

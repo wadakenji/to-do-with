@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form, Input, Alert } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-import { useSignIn } from '../../lib/hooks/useSignIn';
+import { useSignIn } from '../../lib/hooks/auth/useSignIn';
 
 type Props = {
   onSingInSuccess: () => Promise<void>;

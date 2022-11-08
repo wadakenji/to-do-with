@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AuthError } from '@supabase/supabase-js';
-import { supabase } from '../supabase';
+import { supabase } from '../../supabase';
 
 export const useSignIn = (onSuccess?: () => Promise<void>) => {
   const [error, setError] = useState<AuthError | null>(null);
