@@ -13,7 +13,7 @@ const useGetTodoList = (
       const { data, error } = await supabase
         .from('todos')
         .select('id, title, want_to, updated_at')
-        .order('updated_at')
+        .order('updated_at', { ascending: false })
         .eq('want_to', ctx.queryKey[1]);
       if (error) throw error;
       return data;
