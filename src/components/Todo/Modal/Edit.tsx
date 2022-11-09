@@ -1,22 +1,12 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Badge, Modal, Typography } from 'antd';
 import { UserOutlined, EditOutlined } from '@ant-design/icons';
 import { grey, blue } from '@ant-design/colors';
 import { css } from '@emotion/react';
 import { calcElapsedDays } from '../../../lib/util';
 import { useGetTodo } from '../../../lib/hooks/query/useGetTodo';
-
-const Title: React.FC<{ todo: TodoRead }> = ({ todo }) => (
-  <div style={{ marginBottom: -12 }}>
-    <Typography.Title level={5} editable={{ enterIcon: null }}>
-      {todo.title}
-    </Typography.Title>
-    <div css={style.title.authorContainer}>
-      <UserOutlined css={style.title.icon} />
-      {todo.authorName}
-    </div>
-  </div>
-);
+import { useSetTitle } from '../../../lib/hooks/mutation/useSetTitle';
+import { useSetDescription } from '../../../lib/hooks/mutation/useSetDescription';
 
 type Props = { isOpen: boolean; onClose: () => void; todoId: number };
 
@@ -26,14 +16,42 @@ export const ModalEdit: React.FC<Props> = ({
   todoId,
 }) => {
   const { todo } = useGetTodo(todoId);
+  const { setTitle } = useSetTitle();
+  const { setDescription } = useSetDescription();
 
   if (!todo) return <Modal open={isOpen} footer={null} />;
+
+  const TitleSectionElement: ReactNode = (
+    <div style={{ marginBottom: -12 }}>
+      <Typography.Title
+        level={5}
+        editable={{
+          enterIcon: null,
+          onChange: value => setTitle(todo.id, value, todo.wantTo),
+        }}
+      >
+        {todo.title}
+      </Typography.Title>
+      <div css={style.title.authorContainer}>
+        <UserOutlined css={style.title.icon} />
+        {todo.authorName}
+      </div>
+    </div>
+  );
+
+  const DescriptionEditIconElement: ReactNode =
+    todo.description ? undefined : (
+      <div>
+        補足を追加…
+        <EditOutlined />
+      </div>
+    );
 
   return (
     <Modal
       open={isOpen}
       closable={false}
-      title={<Title todo={todo} />}
+      title={TitleSectionElement}
       footer={null}
       bodyStyle={{ paddingTop: 8 }}
       style={{ paddingBottom: 8 }}
@@ -55,12 +73,8 @@ export const ModalEdit: React.FC<Props> = ({
         css={style.description}
         editable={{
           enterIcon: null,
-          icon: todo.description ? undefined : (
-            <div>
-              補足を追加…
-              <EditOutlined />
-            </div>
-          ),
+          icon: DescriptionEditIconElement,
+          onChange: value => setDescription(todo.id, value),
         }}
       >
         {todo.description}

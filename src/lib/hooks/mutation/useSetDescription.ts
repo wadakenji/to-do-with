@@ -12,7 +12,7 @@ export const useSetDescription = () => {
     setDescriptionCache(updatedId, newDescription);
     updateTodo({
       id: updatedId,
-      updateValues: { title: newDescription },
+      updateValues: { description: newDescription },
     });
   };
 

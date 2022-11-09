@@ -15,11 +15,11 @@ export const useGetTodo = (
         .select()
         .eq('id', ctx.queryKey[1]);
       if (error) throw error;
-      return data;
+      return data[0];
     }
   );
 
-  const todoRow = data?.[0];
+  const todoRow = data;
   const todo: TodoRead | undefined = todoRow && {
     id: todoRow.id,
     title: todoRow.title,
