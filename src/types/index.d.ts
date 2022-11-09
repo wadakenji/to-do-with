@@ -24,3 +24,5 @@ type TodoListItem = Pick<
   TodoRead,
   'id' | 'title' | 'wantTo' | 'updatedAt'
 >;
+
+type TodoUpdate = Database['public']['Tables']['todos']['Update'];
