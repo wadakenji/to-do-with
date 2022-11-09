@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { API_KEY } from '../../../config/apiCacheKey';
+import { API_KEY } from '../../../config/cacheKey';
 import { supabase } from '../../supabase';
 
 export const useGetTodo = (

@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { supabase } from '../../supabase';
-import { API_KEY } from '../../../config/apiCacheKey';
+import { API_KEY } from '../../../config/cacheKey';
 
 const useGetTodoList = (
   wantTo: boolean
