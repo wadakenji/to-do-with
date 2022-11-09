@@ -5,6 +5,7 @@ import { css } from '@emotion/react';
 import { blue } from '@ant-design/colors';
 import { ModalCreate } from '../Modal/Create';
 import { useGetWantToDoList } from '../../../lib/hooks/query/useGetTodoList';
+import { useSetWantTo } from '../../../lib/hooks/mutation/useSetWantTo';
 
 /** 追加用ボタン */
 type AddButtonProps = {
@@ -47,6 +48,7 @@ type Props = {
 
 export const WantToDoList: React.FC<Props> = ({ onClickTodo }) => {
   const { todos } = useGetWantToDoList();
+  const { setWantTo } = useSetWantTo();
 
   const [modalCreateIsOpen, setModalCreateIsOpen] = useState(false);
 
@@ -56,10 +58,12 @@ export const WantToDoList: React.FC<Props> = ({ onClickTodo }) => {
         <TodoList
           todos={todos}
           headerText="やった"
-          onClickTodo={onClickTodo}
           footer={
             <AddButton onClick={() => setModalCreateIsOpen(true)} />
           }
+          calcCheckboxValue={wantTo => !wantTo}
+          onClickTodo={onClickTodo}
+          onCheck={id => setWantTo(id, false)}
         />
       )}
       <ModalCreate

@@ -1,29 +1,46 @@
 import React from 'react';
 import { Checkbox, Row, Typography } from 'antd';
+import { grey } from '@ant-design/colors';
 import { css } from '@emotion/react';
 
 type Props = {
   todoItem: TodoListItem;
-  onClick: () => void;
+  checkboxValue: boolean;
+  onClickItem: () => void;
+  onCheck: () => void;
 };
 
 export const TodoItem: React.FC<Props> = ({
   todoItem: { title },
-  onClick,
+  checkboxValue,
+  onClickItem,
+  onCheck,
 }) => {
+  const onClickCheckbox = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
+    if (!checkboxValue) onCheck();
+  };
+
   return (
     <Row
       justify="space-between"
       align="middle"
       wrap={false}
       css={style.row}
-      onClick={onClick}
+      onClick={onClickItem}
     >
-      <Typography.Text ellipsis css={style.title}>
+      <Typography.Text
+        ellipsis
+        delete={checkboxValue}
+        css={style.title}
+        style={{ color: checkboxValue ? grey[3] : undefined }}
+      >
         {title}
       </Typography.Text>
-      <div css={style.checkboxWrapper}>
-        <Checkbox />
+      <div css={style.checkboxWrapper} onClick={onClickCheckbox}>
+        <Checkbox disabled={checkboxValue} />
       </div>
     </Row>
   );

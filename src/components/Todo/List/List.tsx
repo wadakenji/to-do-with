@@ -6,15 +6,19 @@ import { blue } from '@ant-design/colors';
 type Props = {
   todos: TodoListItem[];
   headerText: string;
-  onClickTodo: (id: number) => void;
+  calcCheckboxValue: (wantTo: boolean) => boolean;
   footer?: ReactNode;
+  onClickTodo: (id: number) => void;
+  onCheck: (id: number) => void;
 };
 
 export const TodoList: React.FC<Props> = ({
   todos,
   headerText,
-  onClickTodo,
+  calcCheckboxValue,
   footer,
+  onClickTodo,
+  onCheck,
 }) => {
   return (
     <div css={style.container}>
@@ -26,7 +30,9 @@ export const TodoList: React.FC<Props> = ({
           <TodoItem
             key={todo.id}
             todoItem={todo}
-            onClick={() => onClickTodo(todo.id)}
+            checkboxValue={calcCheckboxValue(todo.wantTo)}
+            onClickItem={() => onClickTodo(todo.id)}
+            onCheck={() => onCheck(todo.id)}
           />
         ))}
         {footer}
