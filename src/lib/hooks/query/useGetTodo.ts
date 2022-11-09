@@ -9,11 +9,17 @@ export const useGetTodo = (
 } => {
   const { data, ...rest } = useQuery(
     [API_KEY.TODO_SINGLE, id],
-    async ctx =>
-      await supabase.from('todos').select().eq('id', ctx.queryKey[1])
+    async ctx => {
+      const { data, error } = await supabase
+        .from('todos')
+        .select()
+        .eq('id', ctx.queryKey[1]);
+      if (error) throw error;
+      return data;
+    }
   );
 
-  const todoRow = data?.data?.[0];
+  const todoRow = data?.[0];
   const todo: TodoRead | undefined = todoRow && {
     id: todoRow.id,
     title: todoRow.title,

@@ -9,15 +9,18 @@ const useGetTodoList = (
 } => {
   const { data, ...rest } = useQuery(
     [API_KEY.TODO_LIST, wantTo],
-    async ctx =>
-      await supabase
+    async ctx => {
+      const { data, error } = await supabase
         .from('todos')
         .select('id, title, want_to, updated_at')
         .order('updated_at')
-        .eq('want_to', ctx.queryKey[1])
+        .eq('want_to', ctx.queryKey[1]);
+      if (error) throw error;
+      return data;
+    }
   );
 
-  const todos = data?.data?.map(todo => ({
+  const todos = data?.map(todo => ({
     id: todo.id,
     title: todo.title,
     wantTo: todo.want_to,
