@@ -2,15 +2,16 @@ import React from 'react';
 import { Input, Modal } from 'antd';
 import { css } from '@emotion/react';
 
-type Props = {};
+type Props = { isOpen: boolean; onClose: () => void };
 
-export const ModalCreate: React.FC<Props> = ({}) => {
+export const ModalCreate: React.FC<Props> = ({ isOpen, onClose }) => {
   return (
     <Modal
-      open={true}
+      open={isOpen}
       closable={false}
       okText="追加"
       cancelText="キャンセル"
+      onCancel={onClose}
     >
       <Input placeholder="タイトル" css={style.title} />
       <Input.TextArea
