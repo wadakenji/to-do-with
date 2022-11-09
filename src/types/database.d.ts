@@ -12,8 +12,8 @@ interface Database {
       todos: {
         Row: {
           id: number;
-          created_at: string | null;
           title: string;
+          created_at: string;
           description: string | null;
           count: number;
           want_to: boolean;
@@ -23,8 +23,8 @@ interface Database {
         };
         Insert: {
           id?: number;
-          created_at?: string | null;
           title: string;
+          created_at?: string;
           description?: string | null;
           count?: number;
           want_to?: boolean;
@@ -34,8 +34,8 @@ interface Database {
         };
         Update: {
           id?: number;
-          created_at?: string | null;
           title?: string;
+          created_at?: string;
           description?: string | null;
           count?: number;
           want_to?: boolean;
