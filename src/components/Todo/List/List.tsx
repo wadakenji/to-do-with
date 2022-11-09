@@ -6,12 +6,14 @@ import { blue } from '@ant-design/colors';
 type Props = {
   todos: TodoListItem[];
   headerText: string;
+  onClickTodo: (id: number) => void;
   footer?: ReactNode;
 };
 
 export const TodoList: React.FC<Props> = ({
   todos,
   headerText,
+  onClickTodo,
   footer,
 }) => {
   return (
@@ -21,7 +23,11 @@ export const TodoList: React.FC<Props> = ({
       </div>
       <div css={style.scrollable}>
         {todos.map(todo => (
-          <TodoItem key={todo.id} todoItem={todo} />
+          <TodoItem
+            key={todo.id}
+            todoItem={todo}
+            onClick={() => onClickTodo(todo.id)}
+          />
         ))}
         {footer}
       </div>

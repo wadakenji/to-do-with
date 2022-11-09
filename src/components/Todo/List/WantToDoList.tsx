@@ -41,9 +41,11 @@ const addButtonStyle = {
 };
 
 /** やりたいことリスト */
-type Props = {};
+type Props = {
+  onClickTodo: (id: number) => void;
+};
 
-export const WantToDoList: React.FC<Props> = () => {
+export const WantToDoList: React.FC<Props> = ({ onClickTodo }) => {
   const { todos } = useGetWantToDoList();
 
   const [modalCreateIsOpen, setModalCreateIsOpen] = useState(false);
@@ -54,6 +56,7 @@ export const WantToDoList: React.FC<Props> = () => {
         <TodoList
           todos={todos}
           headerText="やった"
+          onClickTodo={onClickTodo}
           footer={
             <AddButton onClick={() => setModalCreateIsOpen(true)} />
           }

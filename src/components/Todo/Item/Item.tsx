@@ -4,10 +4,12 @@ import { css } from '@emotion/react';
 
 type Props = {
   todoItem: TodoListItem;
+  onClick: () => void;
 };
 
 export const TodoItem: React.FC<Props> = ({
   todoItem: { title },
+  onClick,
 }) => {
   return (
     <Row
@@ -15,6 +17,7 @@ export const TodoItem: React.FC<Props> = ({
       align="middle"
       wrap={false}
       css={style.row}
+      onClick={onClick}
     >
       <Typography.Text ellipsis css={style.title}>
         {title}
