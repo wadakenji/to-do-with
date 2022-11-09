@@ -4,32 +4,40 @@ import { UserOutlined, EditOutlined } from '@ant-design/icons';
 import { grey, blue } from '@ant-design/colors';
 import { css } from '@emotion/react';
 import { calcElapsedDays } from '../../../lib/util';
+import { useGetTodo } from '../../../lib/hooks/query/useGetTodo';
 
-type Props = {
-  todo: TodoRead;
-};
-
-export const ModalEdit: React.FC<Props> = ({ todo }) => {
-  const Title = () => (
-    <div style={{ marginBottom: -12 }}>
-      <Typography.Title level={5} editable={{ enterIcon: null }}>
-        {todo.title}
-      </Typography.Title>
-      <div css={style.title.authorContainer}>
-        <UserOutlined css={style.title.icon} />
-        {todo.authorName}
-      </div>
+const Title: React.FC<{ todo: TodoRead }> = ({ todo }) => (
+  <div style={{ marginBottom: -12 }}>
+    <Typography.Title level={5} editable={{ enterIcon: null }}>
+      {todo.title}
+    </Typography.Title>
+    <div css={style.title.authorContainer}>
+      <UserOutlined css={style.title.icon} />
+      {todo.authorName}
     </div>
-  );
+  </div>
+);
+
+type Props = { isOpen: boolean; onClose: () => void; todoId: number };
+
+export const ModalEdit: React.FC<Props> = ({
+  isOpen,
+  onClose,
+  todoId,
+}) => {
+  const { todo } = useGetTodo(todoId);
+
+  if (!todo) return <Modal open={isOpen} footer={null} />;
 
   return (
     <Modal
-      open={true}
+      open={isOpen}
       closable={false}
-      title={<Title />}
+      title={<Title todo={todo} />}
       footer={null}
       bodyStyle={{ paddingTop: 8 }}
       style={{ paddingBottom: 8 }}
+      onCancel={onClose}
     >
       {!!todo.count && todo.lastTime && (
         <div css={style.countWrapper}>
