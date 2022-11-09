@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { TodoList } from './List';
 import { css } from '@emotion/react';
 import { blue } from '@ant-design/colors';
+import { ModalCreate } from '../Modal/Create';
+import { useGetWantToDoList } from '../../../lib/hooks/query/useGetTodoList';
 
 /** 追加用ボタン */
 type AddButtonProps = {
@@ -34,21 +36,33 @@ const addButtonStyle = {
   `,
 
   iconWrapper: css`
-    width: 32px;
+    width: 40px;
   `,
 };
 
 /** やりたいことリスト */
-type Props = {
-  todos: TodoListItem[];
-};
+type Props = {};
 
-export const WantToDoList: React.FC<Props> = ({ todos }) => {
+export const WantToDoList: React.FC<Props> = () => {
+  const { todos } = useGetWantToDoList();
+
+  const [modalCreateIsOpen, setModalCreateIsOpen] = useState(false);
+
   return (
-    <TodoList
-      todos={todos}
-      headerText="やった"
-      footer={<AddButton onClick={() => undefined} />}
-    />
+    <>
+      {todos && (
+        <TodoList
+          todos={todos}
+          headerText="やった"
+          footer={
+            <AddButton onClick={() => setModalCreateIsOpen(true)} />
+          }
+        />
+      )}
+      <ModalCreate
+        isOpen={modalCreateIsOpen}
+        onClose={() => setModalCreateIsOpen(false)}
+      />
+    </>
   );
 };
