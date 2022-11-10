@@ -10,7 +10,7 @@ export const useTodoListCache = () => {
       [API_KEY.TODO_LIST, true],
       prev => {
         if (!prev) return prev;
-        return [...prev, newTodo];
+        return [newTodo, ...prev];
       }
     );
   };
