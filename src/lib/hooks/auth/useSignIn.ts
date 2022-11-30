@@ -1,36 +1,29 @@
-import { useState } from 'react';
-import { AuthError } from '@supabase/supabase-js';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../supabase';
-import { useUsernameCache } from '../cache/useUsernameCache';
+import { GLOBAL_STATE_KEY } from '../../../config/cacheKey';
 
-export const useSignIn = (onSuccess?: () => Promise<void>) => {
-  const { setUsername } = useUsernameCache();
+export const useSignIn = () => {
+  const queryClient = useQueryClient();
+  const refetchSession = async () =>
+    await queryClient.refetchQueries([GLOBAL_STATE_KEY.USER_SESSION]);
 
-  const [error, setError] = useState<AuthError | null>(null);
-  const [isPending, setIsPending] = useState(false);
+  const { mutate, isLoading, ...rest } = useMutation(
+    async (variables: { email: string; password: string }) => {
+      const { data, error } = await supabase.auth.signInWithPassword(
+        variables
+      );
+      if (error) throw error;
+      return data;
+    },
+    { onSuccess: refetchSession }
+  );
 
-  const signIn = async (email: string, password: string) => {
-    setIsPending(true);
-
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) setError(error);
-    else {
-      await onSuccess?.();
-      setUsername(data.user?.user_metadata.name);
-    }
-
-    setIsPending(false);
-
-    return data;
-  };
+  const signIn = (email: string, password: string) =>
+    mutate({ email, password });
 
   return {
     signIn,
-    isPending,
-    error,
+    isPending: isLoading,
+    ...rest,
   };
 };

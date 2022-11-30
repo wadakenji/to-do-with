@@ -1,27 +1,15 @@
-import { useEffect, useState } from 'react';
-import { Session } from '@supabase/supabase-js';
+import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../supabase';
+import { GLOBAL_STATE_KEY } from '../../../config/cacheKey';
 
 export const useAuth = () => {
-  const [session, setSession] = useState<null | Session>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    getSession();
-  }, []);
-
-  const getSession = async () => {
-    setIsLoading(true);
-
-    const { data } = await supabase.auth.getSession();
-    setSession(data.session);
-
-    setIsLoading(false);
-  };
+  const { data, isLoading } = useQuery(
+    [GLOBAL_STATE_KEY.USER_SESSION],
+    () => supabase.auth.getSession().then(r => r.data.session)
+  );
 
   return {
-    session,
-    refreshSession: getSession,
+    session: data,
     isLoading,
   };
 };

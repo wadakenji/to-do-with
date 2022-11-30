@@ -3,17 +3,13 @@ import { Button, Form, Input, Alert } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import { useSignIn } from '../../lib/hooks/auth/useSignIn';
 
-type Props = {
-  onSingInSuccess: () => Promise<void>;
-};
-
 const requiredRule = { required: true, message: '入力してね！' };
 
-const Login: React.FC<Props> = ({ onSingInSuccess }) => {
+const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { signIn, isPending, error } = useSignIn(onSingInSuccess);
+  const { signIn, isPending, error } = useSignIn();
 
   return (
     <Form
@@ -50,7 +46,7 @@ const Login: React.FC<Props> = ({ onSingInSuccess }) => {
         </Button>
       </Form.Item>
 
-      {error && (
+      {!!error && (
         <Alert
           message="ログイン失敗"
           description="メアドとパスワードが正しいか確認してみて。"
