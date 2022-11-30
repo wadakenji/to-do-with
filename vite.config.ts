@@ -29,5 +29,10 @@ export default defineConfig({
         ],
       },
     }),
+    {
+      name: 'set_favicon',
+      transformIndexHtml: html =>
+        html.replace('{{ FAVICON_URL }}', `${pwaIconsPath}/32.png`),
+    },
   ],
 });
