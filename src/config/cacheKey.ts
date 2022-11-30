@@ -4,6 +4,5 @@ export const API_KEY = {
 };
 
 export const GLOBAL_STATE_KEY = {
-  USER_NAME: 'USER_NAME',
   USER_SESSION: 'USER_SESSION',
 };
