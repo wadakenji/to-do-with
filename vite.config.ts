@@ -2,6 +2,8 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
+const pwaIconsPath = process.env.PWA_ICONS_PATH;
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -12,14 +14,17 @@ export default defineConfig({
         short_name: 'いつかやりたい',
         display: 'standalone',
         background_color: '#f0f2f5',
+        theme_color: '#f0f2f5',
         icons: [
           {
-            src: 'https://www.shutterstock.com/shutterstock/photos/1798019332/display_1500/stock-vector-free-sample-outline-glyph-icon-1798019332.jpg',
+            src: `${pwaIconsPath}/192.png`,
             size: '192x192',
+            type: 'image/png',
           },
           {
-            src: 'https://www.shutterstock.com/shutterstock/photos/1798019332/display_1500/stock-vector-free-sample-outline-glyph-icon-1798019332.jpg',
+            src: `${pwaIconsPath}/512.png`,
             size: '512x512',
+            type: 'image/png',
           },
         ],
       },

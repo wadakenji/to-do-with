@@ -20,6 +20,7 @@ jobs:
         env:
           VITE_SUPABASE_PROJECT_URL: ${{ secrets.SUPABASE_PROJECT_URL }}
           VITE_SUPABASE_API_KEY: ${{ secrets.SUPABASE_API_KEY }}
+          PWA_ICONS_PATH: ${{ secrets.PWA_ICONS_PATH }}
         run: yarn build
 
       - name: Deploy
