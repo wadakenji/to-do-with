@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { Badge, Modal, Typography } from 'antd';
 import { UserOutlined, EditOutlined } from '@ant-design/icons';
 import { grey, blue } from '@ant-design/colors';
@@ -15,9 +15,13 @@ export const ModalEdit: React.FC<Props> = ({
   onClose,
   todoId,
 }) => {
-  const { todo } = useGetTodo(todoId);
+  const { todo, refetch } = useGetTodo(todoId);
   const { setTitle } = useSetTitle();
   const { setDescription } = useSetDescription();
+
+  useEffect(() => {
+    if (isOpen && todo) refetch();
+  }, [isOpen]);
 
   if (!todo) return <Modal open={isOpen} footer={null} />;
 

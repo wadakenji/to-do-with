@@ -16,7 +16,8 @@ export const useGetTodo = (
         .eq('id', ctx.queryKey[1]);
       if (error) throw error;
       return data[0];
-    }
+    },
+    { enabled: !!id }
   );
 
   const todoRow = data;
