@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { TodoList } from './List';
 import { css } from '@emotion/react';
@@ -6,6 +6,7 @@ import { blue } from '@ant-design/colors';
 import { ModalCreate } from '../Modal/Create';
 import { useGetWantToDoList } from '../../../lib/hooks/query/useGetTodoList';
 import { useSetWantTo } from '../../../lib/hooks/mutation/useSetWantTo';
+import { useTodoListCache } from '../../../lib/hooks/cache/useTodoListCache';
 
 /** 追加用ボタン */
 type AddButtonProps = {
@@ -49,8 +50,10 @@ type Props = {
 export const WantToDoList: React.FC<Props> = ({ onClickTodo }) => {
   const { todos } = useGetWantToDoList();
   const { setWantTo } = useSetWantTo();
-
+  const { filterWantToDoListCache } = useTodoListCache();
   const [modalCreateIsOpen, setModalCreateIsOpen] = useState(false);
+
+  useEffect(() => filterWantToDoListCache, []);
 
   return (
     <>

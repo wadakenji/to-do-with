@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TodoList } from './List';
 import { useGetDoneList } from '../../../lib/hooks/query/useGetTodoList';
 import { useSetWantTo } from '../../../lib/hooks/mutation/useSetWantTo';
+import { useTodoListCache } from '../../../lib/hooks/cache/useTodoListCache';
 
 type Props = {
   onClickTodo: (id: number) => void;
@@ -10,6 +11,9 @@ type Props = {
 export const DoneList: React.FC<Props> = ({ onClickTodo }) => {
   const { todos } = useGetDoneList();
   const { setWantTo } = useSetWantTo();
+  const { filterDoneListCache } = useTodoListCache();
+
+  useEffect(() => filterDoneListCache, []);
 
   return (
     <>

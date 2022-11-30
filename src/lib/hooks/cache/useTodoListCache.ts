@@ -71,10 +71,22 @@ export const useTodoListCache = () => {
     updateSingleTodo(updatedId, { description: newDescription });
   };
 
+  /** タブ切り替え時にチェック済みのtodoを排除する */
+  const filterToDoListCache = (wantTo: boolean) => {
+    queryClient.setQueryData<TodoRowListItem[]>(
+      [API_KEY.TODO_LIST, wantTo],
+      prev => prev?.filter(({ want_to }) => want_to === wantTo)
+    );
+  };
+  const filterWantToDoListCache = () => filterToDoListCache(true);
+  const filterDoneListCache = () => filterToDoListCache(false);
+
   return {
     addAndUpdateWantToDoCache,
     setWantToCache,
     setTitleCache,
     setDescriptionCache,
+    filterWantToDoListCache,
+    filterDoneListCache,
   };
 };
