@@ -1,5 +1,5 @@
-import React, { ReactNode, useEffect } from 'react';
-import { Badge, Modal, Typography } from 'antd';
+import React, { ReactElement, ReactNode, useEffect } from 'react';
+import { Badge, Modal, Skeleton, Typography } from 'antd';
 import { UserOutlined, EditOutlined } from '@ant-design/icons';
 import { grey, blue } from '@ant-design/colors';
 import { css } from '@emotion/react';
@@ -7,6 +7,16 @@ import { calcElapsedDays } from '../../../lib/util';
 import { useGetTodo } from '../../../lib/hooks/query/useGetTodo';
 import { useSetTitle } from '../../../lib/hooks/mutation/useSetTitle';
 import { useSetDescription } from '../../../lib/hooks/mutation/useSetDescription';
+
+const ModalSkeleton: ReactElement = (
+  <Modal
+    open={true}
+    footer={null}
+    title={<Skeleton title={{ width: '50%' }} paragraph={false} />}
+  >
+    <Skeleton title={false} />
+  </Modal>
+);
 
 type Props = { isOpen: boolean; onClose: () => void; todoId: number };
 
@@ -23,7 +33,7 @@ export const ModalEdit: React.FC<Props> = ({
     if (isOpen && todo) refetch();
   }, [isOpen]);
 
-  if (!todo) return <Modal open={isOpen} footer={null} />;
+  if (!todo) return isOpen ? ModalSkeleton : null;
 
   const TitleSectionElement: ReactNode = (
     <div style={{ marginBottom: -12 }}>
