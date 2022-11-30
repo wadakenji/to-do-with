@@ -30,11 +30,14 @@ const addButtonStyle = {
     justify-content: space-between;
     align-items: center;
     color: ${blue[5]};
-    height: 32px;
+    font-size: 18px;
+    height: 40px;
     background-color: #fff;
     position: sticky;
     left: 0;
-    bottom: 0;
+    bottom: 0px;
+    z-index: 99;
+    border: solid 1px #fff;
   `,
 
   iconWrapper: css`

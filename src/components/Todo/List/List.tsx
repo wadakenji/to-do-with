@@ -52,8 +52,9 @@ const style = {
   header: css`
     display: flex;
     justify-content: end;
+    align-items: end;
     height: 18px;
-    font-size: 8px;
+    font-size: 10px;
     font-weight: bold;
     color: ${blue[7]};
 

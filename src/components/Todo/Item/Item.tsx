@@ -1,6 +1,10 @@
 import React from 'react';
-import { Checkbox, Row, Typography } from 'antd';
-import { grey } from '@ant-design/colors';
+import { Row, Typography } from 'antd';
+import { blue, grey } from '@ant-design/colors';
+import {
+  BorderOutlined,
+  CheckSquareOutlined,
+} from '@ant-design/icons';
 import { css } from '@emotion/react';
 
 type Props = {
@@ -32,7 +36,7 @@ export const TodoItem: React.FC<Props> = ({
       onClick={onClickItem}
     >
       <Typography.Text
-        ellipsis
+        // ellipsis
         delete={checkboxValue}
         css={style.title}
         style={{ color: checkboxValue ? grey[3] : undefined }}
@@ -40,7 +44,13 @@ export const TodoItem: React.FC<Props> = ({
         {title}
       </Typography.Text>
       <div css={style.checkboxWrapper} onClick={onClickCheckbox}>
-        <Checkbox disabled={checkboxValue} />
+        {checkboxValue ? (
+          <CheckSquareOutlined
+            css={[style.checkIcon, style.checkedIcon]}
+          />
+        ) : (
+          <BorderOutlined css={[style.checkIcon, style.emptyIcon]} />
+        )}
       </div>
     </Row>
   );
@@ -48,14 +58,19 @@ export const TodoItem: React.FC<Props> = ({
 
 const style = {
   row: css`
-    height: 32px;
+    height: 44px;
     :nth-of-type(even) {
       background-color: #fafafa;
     }
   `,
   title: css`
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 700;
+    overflow: scroll;
+    white-space: nowrap;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   `,
   checkboxWrapper: css`
     width: 40px;
@@ -64,5 +79,14 @@ const style = {
     display: flex;
     justify-content: center;
     align-items: center;
+  `,
+  checkIcon: css`
+    font-size: 24px; ;
+  `,
+  emptyIcon: css`
+    color: ${blue[9]};
+  `,
+  checkedIcon: css`
+    color: ${grey[3]};
   `,
 };
