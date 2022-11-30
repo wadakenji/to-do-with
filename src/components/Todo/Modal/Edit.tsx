@@ -1,5 +1,17 @@
-import React, { ReactElement, ReactNode, useEffect } from 'react';
-import { Badge, Modal, Skeleton, Typography } from 'antd';
+import React, {
+  ReactElement,
+  ReactNode,
+  useEffect,
+  useState,
+} from 'react';
+import {
+  Badge,
+  Modal,
+  Skeleton,
+  Typography,
+  Input,
+  Button,
+} from 'antd';
 import { UserOutlined, EditOutlined } from '@ant-design/icons';
 import { grey, blue } from '@ant-design/colors';
 import { css } from '@emotion/react';
@@ -27,18 +39,25 @@ export const ModalEdit: React.FC<Props> = ({
 }) => {
   const { todo, refetch } = useGetTodo(todoId);
   const { setTitle } = useSetTitle();
+  const [descriptionTmp, setDescriptionTmp] = useState('');
+  const [isEditingDescription, setIsEditingDescription] =
+    useState(false);
   const { setDescription } = useSetDescription();
 
   useEffect(() => {
     if (isOpen && todo) refetch();
   }, [isOpen]);
 
+  useEffect(() => {
+    if (todo) setDescriptionTmp(todo.description);
+  }, [!!todo]);
+
   if (!todo) return isOpen ? ModalSkeleton : null;
 
   const TitleSectionElement: ReactNode = (
-    <div style={{ marginBottom: -12 }}>
+    <div css={style.title.wrapper}>
       <Typography.Title
-        level={5}
+        level={3}
         editable={{
           enterIcon: null,
           onChange: value => setTitle(todo.id, value, todo.wantTo),
@@ -53,21 +72,13 @@ export const ModalEdit: React.FC<Props> = ({
     </div>
   );
 
-  const DescriptionEditIconElement: ReactNode =
-    todo.description ? undefined : (
-      <div>
-        補足を追加…
-        <EditOutlined />
-      </div>
-    );
-
   return (
     <Modal
       open={isOpen}
       closable={false}
       title={TitleSectionElement}
       footer={null}
-      bodyStyle={{ paddingTop: 8 }}
+      bodyStyle={{ paddingTop: 12 }}
       style={{ paddingBottom: 8 }}
       onCancel={onClose}
     >
@@ -78,34 +89,66 @@ export const ModalEdit: React.FC<Props> = ({
             style={{
               backgroundColor: blue[0],
               color: blue[5],
+              fontSize: 16,
             }}
           />
-          {calcElapsedDays(todo.lastTime)} 日前
+          <span css={style.dateText}>
+            {calcElapsedDays(todo.lastTime)} 日前
+          </span>
         </div>
       )}
-      <Typography.Text
-        css={style.description}
-        editable={{
-          enterIcon: null,
-          icon: DescriptionEditIconElement,
-          onChange: value => setDescription(todo.id, value),
-        }}
-      >
-        {todo.description}
-      </Typography.Text>
+      {!isEditingDescription ? (
+        <Typography.Text css={style.description}>
+          {todo.description}
+          <span
+            css={style.editButton}
+            onClick={() => setIsEditingDescription(true)}
+          >
+            {!todo.description && '補足を追加…'}
+            <EditOutlined
+              style={{ marginLeft: todo.description ? 8 : 0 }}
+            />
+          </span>
+        </Typography.Text>
+      ) : (
+        <div css={style.textareaWrapper}>
+          <Input.TextArea
+            value={descriptionTmp}
+            onChange={e => setDescriptionTmp(e.target.value)}
+            autoSize={{ minRows: 2, maxRows: 7 }}
+            autoFocus
+          />
+          <Button
+            type={'primary'}
+            onClick={() => {
+              setDescription(todo.id, descriptionTmp);
+              setIsEditingDescription(false);
+            }}
+          >
+            OK
+          </Button>
+        </div>
+      )}
     </Modal>
   );
 };
 
 const style = {
   title: {
+    wrapper: css`
+      margin-bottom: -12px;
+      display: flex;
+      justify-content: space-between;
+    `,
     authorContainer: css`
       text-align: right;
-      font-size: 10px;
+      font-size: 14px;
       color: ${grey[8]};
+      align-self: end;
+      flex-shrink: 0;
     `,
     icon: css`
-      width: 16px;
+      margin-right: 4px;
     `,
   },
 
@@ -113,13 +156,29 @@ const style = {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+  `,
+
+  dateText: css`
+    font-size: 18px;
   `,
 
   description: css`
-    font-size: 10px;
-    line-height: 20px;
+    font-size: 14px;
+    line-height: 24px;
     color: rgba(0, 0, 0, 0.45);
-    letter-spacing: 0.5px;
+    letter-spacing: 2px;
+    white-space: pre-line;
+  `,
+
+  editButton: css`
+    color: ${blue[5]};
+  `,
+
+  textareaWrapper: css`
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: end;
   `,
 };
